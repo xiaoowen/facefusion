@@ -5,7 +5,6 @@ METADATA =\
 	'version': '2.6.1',
 	'license': 'MIT',
 	'author': 'Henry Ruhs',
-	'url': 'https://facefusion.io'
 }
 
 

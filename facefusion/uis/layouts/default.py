@@ -2,7 +2,9 @@ import multiprocessing
 import gradio
 
 import facefusion.globals
-from facefusion.uis.components import about, frame_processors, frame_processors_options, execution, execution_thread_count, execution_queue_count, memory, temp_frame, output_options, common_options, source, target, output, preview, trim_frame, face_analyser, face_selector, face_masker
+from facefusion.uis.components import about, frame_processors, frame_processors_options, execution, \
+	execution_thread_count, execution_queue_count, memory, temp_frame, output_options, common_options, source, target, \
+	output, preview, trim_frame, face_analyser, face_selector, face_masker
 
 
 def pre_check() -> bool:
@@ -16,7 +18,7 @@ def pre_render() -> bool:
 def render() -> gradio.Blocks:
 	with gradio.Blocks() as layout:
 		with gradio.Row():
-			with gradio.Column(scale = 2):
+			with gradio.Column(scale=2):
 				with gradio.Blocks():
 					about.render()
 				with gradio.Blocks():
@@ -33,14 +35,14 @@ def render() -> gradio.Blocks:
 					temp_frame.render()
 				with gradio.Blocks():
 					output_options.render()
-			with gradio.Column(scale = 2):
+			with gradio.Column(scale=2):
 				with gradio.Blocks():
 					source.render()
 				with gradio.Blocks():
 					target.render()
 				with gradio.Blocks():
 					output.render()
-			with gradio.Column(scale = 3):
+			with gradio.Column(scale=3):
 				with gradio.Blocks():
 					preview.render()
 				with gradio.Blocks():
@@ -76,6 +78,16 @@ def listen() -> None:
 	common_options.listen()
 
 
-def run(ui : gradio.Blocks) -> None:
+def run(ui: gradio.Blocks) -> None:
 	concurrency_count = min(8, multiprocessing.cpu_count())
-	ui.queue(concurrency_count = concurrency_count).launch(show_api = False, quiet = True, inbrowser = facefusion.globals.open_browser)
+
+	server_name = None
+	if facefusion.globals.server_name is not None:
+		server_name = f'{facefusion.globals.server_name}'
+	server_port = None
+	if facefusion.globals.server_port is not None:
+		server_port = int(facefusion.globals.server_port)
+
+	ui.queue(concurrency_count=concurrency_count).launch(show_api=False, server_name=server_name,
+														 server_port=server_port, quiet=True,
+														 inbrowser=facefusion.globals.open_browser)

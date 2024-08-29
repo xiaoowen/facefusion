@@ -38,6 +38,9 @@ def cli() -> None:
 	# general
 	program.add_argument('-c', '--config', help = wording.get('help.config'), dest = 'config_path', default = 'facefusion.ini')
 	apply_config(program)
+
+	program.add_argument("--listen", help=wording.get('help.listen'), dest="server_name", default=config.get_str_value('general.server_name', '127.0.0.1'))
+	program.add_argument("--port", help=wording.get('help.port'), dest="server_port", default=config.get_int_value('general.server_port', 7860))
 	program.add_argument('-s', '--source', help = wording.get('help.source'), action = 'append', dest = 'source_paths', default = config.get_str_list('general.source_paths'))
 	program.add_argument('-t', '--target', help = wording.get('help.target'), dest = 'target_path', default = config.get_str_value('general.target_path'))
 	program.add_argument('-o', '--output', help = wording.get('help.output'), dest = 'output_path', default = config.get_str_value('general.output_path'))
@@ -108,7 +111,8 @@ def cli() -> None:
 	available_ui_layouts = list_directory('facefusion/uis/layouts')
 	group_uis = program.add_argument_group('uis')
 	group_uis.add_argument('--open-browser', help=wording.get('help.open_browser'), action = 'store_true', default = config.get_bool_value('uis.open_browser'))
-	group_uis.add_argument('--ui-layouts', help = wording.get('help.ui_layouts').format(choices = ', '.join(available_ui_layouts)), default = config.get_str_list('uis.ui_layouts', 'default'), nargs = '+')
+	group_uis.add_argument('--ui-layouts', help=wording.get('help.ui_layouts').format(choices = ', '.join(available_ui_layouts)), default = config.get_str_list('uis.ui_layouts', 'default'), nargs = '+')
+	group_uis.add_argument("--ui-lang", help=wording.get('help.ui_lang'), default = config.get_str_value('uis.ui_lang', 'en'))
 	run(program)
 
 
@@ -136,6 +140,8 @@ def apply_args(program : ArgumentParser) -> None:
 	facefusion.globals.source_paths = args.source_paths
 	facefusion.globals.target_path = args.target_path
 	facefusion.globals.output_path = args.output_path
+	facefusion.globals.server_name = args.server_name
+	facefusion.globals.server_port = args.server_port
 	# misc
 	facefusion.globals.force_download = args.force_download
 	facefusion.globals.skip_download = args.skip_download
@@ -206,6 +212,7 @@ def apply_args(program : ArgumentParser) -> None:
 	# uis
 	facefusion.globals.open_browser = args.open_browser
 	facefusion.globals.ui_layouts = args.ui_layouts
+	facefusion.globals.ui_lang = args.ui_lang
 
 
 def run(program : ArgumentParser) -> None:

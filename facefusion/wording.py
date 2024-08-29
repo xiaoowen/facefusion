@@ -1,5 +1,7 @@
 from typing import Any, Dict, Optional
 
+import facefusion.globals
+
 WORDING : Dict[str, Any] =\
 {
 	'conda_not_activated': 'Conda is not activated',
@@ -59,6 +61,8 @@ WORDING : Dict[str, Any] =\
 		'source': 'choose single or multiple source images or audios',
 		'target': 'choose single target image or video',
 		'output': 'specify the output file or directory',
+		'listen': 'specify server listen address, default is 127.0.0.1',
+		'port': 'specify server listen port, default is 7860',
 		# misc
 		'force_download': 'force automate downloads and exit',
 		'skip_download': 'omit automate downloads and remote lookups',
@@ -122,95 +126,188 @@ WORDING : Dict[str, Any] =\
 	},
 	'uis':
 	{
-		# general
-		'start_button': 'START',
-		'stop_button': 'STOP',
-		'clear_button': 'CLEAR',
-		# about
-		'donate_button': 'DONATE',
-		# benchmark
-		'benchmark_results_dataframe': 'BENCHMARK RESULTS',
-		# benchmark options
-		'benchmark_runs_checkbox_group': 'BENCHMARK RUNS',
-		'benchmark_cycles_slider': 'BENCHMARK CYCLES',
-		# common options
-		'common_options_checkbox_group': 'OPTIONS',
-		# execution
-		'execution_providers_checkbox_group': 'EXECUTION PROVIDERS',
-		# execution queue count
-		'execution_queue_count_slider': 'EXECUTION QUEUE COUNT',
-		# execution thread count
-		'execution_thread_count_slider': 'EXECUTION THREAD COUNT',
-		# face analyser
-		'face_analyser_order_dropdown': 'FACE ANALYSER ORDER',
-		'face_analyser_age_dropdown': 'FACE ANALYSER AGE',
-		'face_analyser_gender_dropdown': 'FACE ANALYSER GENDER',
-		'face_detector_model_dropdown': 'FACE DETECTOR MODEL',
-		'face_detector_size_dropdown': 'FACE DETECTOR SIZE',
-		'face_detector_score_slider': 'FACE DETECTOR SCORE',
-		'face_landmarker_score_slider': 'FACE LANDMARKER SCORE',
-		# face masker
-		'face_mask_types_checkbox_group': 'FACE MASK TYPES',
-		'face_mask_blur_slider': 'FACE MASK BLUR',
-		'face_mask_padding_top_slider': 'FACE MASK PADDING TOP',
-		'face_mask_padding_right_slider': 'FACE MASK PADDING RIGHT',
-		'face_mask_padding_bottom_slider': 'FACE MASK PADDING BOTTOM',
-		'face_mask_padding_left_slider': 'FACE MASK PADDING LEFT',
-		'face_mask_region_checkbox_group': 'FACE MASK REGIONS',
-		# face selector
-		'face_selector_mode_dropdown': 'FACE SELECTOR MODE',
-		'reference_face_gallery': 'REFERENCE FACE',
-		'reference_face_distance_slider': 'REFERENCE FACE DISTANCE',
-		# frame processors
-		'frame_processors_checkbox_group': 'FRAME PROCESSORS',
-		# frame processors options
-		'face_debugger_items_checkbox_group': 'FACE DEBUGGER ITEMS',
-		'face_enhancer_model_dropdown': 'FACE ENHANCER MODEL',
-		'face_enhancer_blend_slider': 'FACE ENHANCER BLEND',
-		'face_swapper_model_dropdown': 'FACE SWAPPER MODEL',
-		'frame_colorizer_model_dropdown': 'FRAME COLORIZER MODEL',
-		'frame_colorizer_blend_slider': 'FRAME COLORIZER BLEND',
-		'frame_colorizer_size_dropdown': 'FRAME COLORIZER SIZE',
-		'frame_enhancer_model_dropdown': 'FRAME ENHANCER MODEL',
-		'frame_enhancer_blend_slider': 'FRAME ENHANCER BLEND',
-		'lip_syncer_model_dropdown': 'LIP SYNCER MODEL',
-		# memory
-		'video_memory_strategy_dropdown': 'VIDEO MEMORY STRATEGY',
-		'system_memory_limit_slider': 'SYSTEM MEMORY LIMIT',
-		# output
-		'output_image_or_video': 'OUTPUT',
-		# output options
-		'output_path_textbox': 'OUTPUT PATH',
-		'output_image_quality_slider': 'OUTPUT IMAGE QUALITY',
-		'output_image_resolution_dropdown': 'OUTPUT IMAGE RESOLUTION',
-		'output_video_encoder_dropdown': 'OUTPUT VIDEO ENCODER',
-		'output_video_preset_dropdown': 'OUTPUT VIDEO PRESET',
-		'output_video_quality_slider': 'OUTPUT VIDEO QUALITY',
-		'output_video_resolution_dropdown': 'OUTPUT VIDEO RESOLUTION',
-		'output_video_fps_slider': 'OUTPUT VIDEO FPS',
-		# preview
-		'preview_image': 'PREVIEW',
-		'preview_frame_slider': 'PREVIEW FRAME',
-		# source
-		'source_file': 'SOURCE',
-		# target
-		'target_file': 'TARGET',
-		# temp frame
-		'temp_frame_format_dropdown': 'TEMP FRAME FORMAT',
-		# trim frame
-		'trim_frame_start_slider': 'TRIM FRAME START',
-		'trim_frame_end_slider': 'TRIM FRAME END',
-		# webcam
-		'webcam_image': 'WEBCAM',
-		# webcam options
-		'webcam_mode_radio': 'WEBCAM MODE',
-		'webcam_resolution_dropdown': 'WEBCAM RESOLUTION',
-		'webcam_fps_slider': 'WEBCAM FPS'
+		'en': {
+			# general
+			'start_button': 'START',
+			'stop_button': 'STOP',
+			'clear_button': 'CLEAR',
+			# about
+			# benchmark
+			'benchmark_results_dataframe': 'BENCHMARK RESULTS',
+			# benchmark options
+			'benchmark_runs_checkbox_group': 'BENCHMARK RUNS',
+			'benchmark_cycles_slider': 'BENCHMARK CYCLES',
+			# common options
+			'common_options_checkbox_group': 'OPTIONS',
+			# execution
+			'execution_providers_checkbox_group': 'EXECUTION PROVIDERS',
+			# execution queue count
+			'execution_queue_count_slider': 'EXECUTION QUEUE COUNT',
+			# execution thread count
+			'execution_thread_count_slider': 'EXECUTION THREAD COUNT',
+			# face analyser
+			'face_analyser_order_dropdown': 'FACE ANALYSER ORDER',
+			'face_analyser_age_dropdown': 'FACE ANALYSER AGE',
+			'face_analyser_gender_dropdown': 'FACE ANALYSER GENDER',
+			'face_detector_model_dropdown': 'FACE DETECTOR MODEL',
+			'face_detector_size_dropdown': 'FACE DETECTOR SIZE',
+			'face_detector_score_slider': 'FACE DETECTOR SCORE',
+			'face_landmarker_score_slider': 'FACE LANDMARKER SCORE',
+			# face masker
+			'face_mask_types_checkbox_group': 'FACE MASK TYPES',
+			'face_mask_blur_slider': 'FACE MASK BLUR',
+			'face_mask_padding_top_slider': 'FACE MASK PADDING TOP',
+			'face_mask_padding_right_slider': 'FACE MASK PADDING RIGHT',
+			'face_mask_padding_bottom_slider': 'FACE MASK PADDING BOTTOM',
+			'face_mask_padding_left_slider': 'FACE MASK PADDING LEFT',
+			'face_mask_region_checkbox_group': 'FACE MASK REGIONS',
+			# face selector
+			'face_selector_mode_dropdown': 'FACE SELECTOR MODE',
+			'reference_face_gallery': 'REFERENCE FACE',
+			'reference_face_distance_slider': 'REFERENCE FACE DISTANCE',
+			# frame processors
+			'frame_processors_checkbox_group': 'FRAME PROCESSORS',
+			# frame processors options
+			'face_debugger_items_checkbox_group': 'FACE DEBUGGER ITEMS',
+			'face_enhancer_model_dropdown': 'FACE ENHANCER MODEL',
+			'face_enhancer_blend_slider': 'FACE ENHANCER BLEND',
+			'face_swapper_model_dropdown': 'FACE SWAPPER MODEL',
+			'frame_colorizer_model_dropdown': 'FRAME COLORIZER MODEL',
+			'frame_colorizer_blend_slider': 'FRAME COLORIZER BLEND',
+			'frame_colorizer_size_dropdown': 'FRAME COLORIZER SIZE',
+			'frame_enhancer_model_dropdown': 'FRAME ENHANCER MODEL',
+			'frame_enhancer_blend_slider': 'FRAME ENHANCER BLEND',
+			'lip_syncer_model_dropdown': 'LIP SYNCER MODEL',
+			# memory
+			'video_memory_strategy_dropdown': 'VIDEO MEMORY STRATEGY',
+			'system_memory_limit_slider': 'SYSTEM MEMORY LIMIT',
+			# output
+			'output_image_or_video': 'OUTPUT',
+			# output options
+			'output_path_textbox': 'OUTPUT PATH',
+			'output_image_quality_slider': 'OUTPUT IMAGE QUALITY',
+			'output_image_resolution_dropdown': 'OUTPUT IMAGE RESOLUTION',
+			'output_video_encoder_dropdown': 'OUTPUT VIDEO ENCODER',
+			'output_video_preset_dropdown': 'OUTPUT VIDEO PRESET',
+			'output_video_quality_slider': 'OUTPUT VIDEO QUALITY',
+			'output_video_resolution_dropdown': 'OUTPUT VIDEO RESOLUTION',
+			'output_video_fps_slider': 'OUTPUT VIDEO FPS',
+			# preview
+			'preview_image': 'PREVIEW',
+			'preview_frame_slider': 'PREVIEW FRAME',
+			# source
+			'source_file': 'SOURCE',
+			# target
+			'target_file': 'TARGET',
+			# temp frame
+			'temp_frame_format_dropdown': 'TEMP FRAME FORMAT',
+			# trim frame
+			'trim_frame_start_slider': 'TRIM FRAME START',
+			'trim_frame_end_slider': 'TRIM FRAME END',
+			# webcam
+			'webcam_image': 'WEBCAM',
+			# webcam options
+			'webcam_mode_radio': 'WEBCAM MODE',
+			'webcam_resolution_dropdown': 'WEBCAM RESOLUTION',
+			'webcam_fps_slider': 'WEBCAM FPS'
+		},
+		'zh_CN': {
+			# general
+			'start_button': '开始',
+			'stop_button': '停止',
+			'clear_button': '清除',
+			# about
+			# benchmark
+			'benchmark_results_dataframe': '基准测试结果',
+			# benchmark options
+			'benchmark_runs_checkbox_group': '基准测试',
+			'benchmark_cycles_slider': '基准周期',
+			# common options
+			'common_options_checkbox_group': '选项',
+			# execution
+			'execution_providers_checkbox_group': '执行器',
+			# execution queue count
+			'execution_queue_count_slider': '执行队列数',
+			# execution thread count
+			'execution_thread_count_slider': '执行线程数',
+			# face analyser
+			'face_analyser_order_dropdown': '面部分析序列',
+			'face_analyser_age_dropdown': '面部分析-年龄',
+			'face_analyser_gender_dropdown': '面部分析-性别',
+			'face_detector_model_dropdown': '面部检测器模型',
+			'face_detector_size_dropdown': '面部检测器尺寸',
+			'face_detector_score_slider': '面部检测器分值',
+			'face_landmarker_score_slider': '面部标记分值',
+			# face masker
+			'face_mask_types_checkbox_group': '面部遮罩类型',
+			'face_mask_blur_slider': '面部遮罩模糊值',
+			'face_mask_padding_top_slider': '面部遮罩上填充',
+			'face_mask_padding_right_slider': '面部遮罩右填充',
+			'face_mask_padding_bottom_slider': '面部遮罩下填充',
+			'face_mask_padding_left_slider': '面部遮罩左填充',
+			'face_mask_region_checkbox_group': '面部遮罩区域',
+			# face selector
+			'face_selector_mode_dropdown': '面部选择器模式',
+			'reference_face_gallery': '面部参考',
+			'reference_face_distance_slider': '面部参考值',
+			# frame processors
+			'frame_processors_checkbox_group': '帧处理器',
+			# frame processors options
+			'face_debugger_items_checkbox_group': '面部调试器',
+			'face_enhancer_model_dropdown': '面部增强模型',
+			'face_enhancer_blend_slider': '面部增强混淆值',
+			'face_swapper_model_dropdown': '换脸模型',
+			'frame_colorizer_model_dropdown': '帧着色器模型',
+			'frame_colorizer_blend_slider': '帧着色器混淆值',
+			'frame_colorizer_size_dropdown': '帧着色器大小',
+			'frame_enhancer_model_dropdown': '帧增强模型',
+			'frame_enhancer_blend_slider': '帧增强混淆值',
+			'lip_syncer_model_dropdown': '唇形同步模型',
+			# memory
+			'video_memory_strategy_dropdown': '视频内存策略',
+			'system_memory_limit_slider': '系统内存限制',
+			# output
+			'output_image_or_video': '输出',
+			# output options
+			'output_path_textbox': '输出路径',
+			'output_image_quality_slider': '输出图像质量',
+			'output_image_resolution_dropdown': '输出图像分辨率',
+			'output_video_encoder_dropdown': '输出视频编码器',
+			'output_video_preset_dropdown': '输出视频预设',
+			'output_video_quality_slider': '输出视频质量',
+			'output_video_resolution_dropdown': '输出视频分辨率',
+			'output_video_fps_slider': '输出视频帧率',
+			# preview
+			'preview_image': '预览',
+			'preview_frame_slider': '帧预览',
+			# source
+			'source_file': '源',
+			# target
+			'target_file': '目标',
+			# temp frame
+			'temp_frame_format_dropdown': '临时帧格式',
+			# trim frame
+			'trim_frame_start_slider': '开始修剪帧',
+			'trim_frame_end_slider': '结束修剪帧',
+			# webcam
+			'webcam_image': '摄像头',
+			# webcam options
+			'webcam_mode_radio': '摄像头模式',
+			'webcam_resolution_dropdown': '摄像头分辨率',
+			'webcam_fps_slider': '摄像头帧率'
+		}
 	}
 }
 
 
 def get(key : str) -> Optional[str]:
+	if 'uis' in key:
+		section, name = key.split('.')
+		if section in WORDING:
+			if facefusion.globals.ui_lang in WORDING[section] and name in WORDING[section][facefusion.globals.ui_lang]:
+				return WORDING[section][facefusion.globals.ui_lang][name]
+			if name in WORDING[section]:
+				return WORDING[section][name]
 	if '.' in key:
 		section, name = key.split('.')
 		if section in WORDING and name in WORDING[section]:
